@@ -181,22 +181,111 @@ void postorderTraversal(Node* ptr)
 
 int insert(Node* head, int key) // 노드에 key의 값을 삽입하는 함수
 {
+	 Node* parent;
+	   Node* node = (Node*)malloc(sizeof(Node));
+	   Node* temp = head -> left;
+	   node -> key = key;
+	   node -> left = NULL;
+	   node -> right = NULL;
+
+
+	   if(head->left == NULL)
+	   {
+	      head -> left = node;
+	      return 0;
+	   }
+
+	   while(temp != NULL)
+	   {
+	      parent = temp;
+	      if (key == parent -> key)
+	      {
+	         printf("키의값이 이미 존재합니다.\n");
+	         return 1;
+	      }
+	      if(key < parent -> key)
+	      {
+	         temp = parent -> left;
+	      }
+	      else
+	      {
+	         temp = parent -> right;
+	      }
+	   }
+	      if(key < parent -> key)
+	      {
+	         parent -> left = node;
+	      }
+	      else
+	      {
+	         parent -> right = node;
+	      }
+	   return 0;
 
 }
 
 int deleteLeafNode(Node* head, int key)
 {
+	Node* parent = NULL;
+	Node* node = head -> left;
+
+	if(node == NULL)
+	{
+		printf("삭제할 키의 값 노드가 존재하지않습니다.\n");
+		return 0;
+	}
 
 }
 
-Node* searchRecursive(Node* ptr, int key)
+Node* searchRecursive(Node* ptr, int key) // 재귀함수를 이용하여, 검색하는 함수
 {
-
+	if (ptr == NULL)
+	{
+		printf("key값이 들어간 노드가 없습니다.\n");
+		return 0;
+	}
+	if (ptr -> key == -9999)
+	{
+		searchRecursive(ptr -> left, key);
+	}
+	else if (key == ptr -> key)
+	{
+		return ptr;
+	}
+	else if (key < ptr -> key)
+	{
+		searchRecursive(ptr -> left, key);
+	}
+	else
+	{
+		searchRecursive(ptr -> right, key);
+	}
 }
 
 Node* searchIterative(Node* head, int key)
 {
+	Node* root = head -> left;
 
+	if(root == NULL)
+	{
+		printf("key값이 들어간 노드가 없습니다\n");
+		return 0;
+	}
+	while(root != NULL)
+	{
+		if (key == root -> key)
+		{
+			return root;
+		}
+		else if (key < root -> key)
+		{
+			root = root -> left;
+		}
+		else
+			root = root -> right;
+	}
+	printf("key값이 들어간 노드가 없습니다\n");
+	return 0;
 }
 
 
@@ -204,7 +293,6 @@ int freeBST(Node* head)
 {
 	if (head == NULL)
 	{
-		printf("해제할 노드가 없습니다.");
 		return 1;
 	}
 
